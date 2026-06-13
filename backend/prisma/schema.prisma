@@ -1,0 +1,104 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  EMPLOYEE
+}
+
+enum TripStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum MemberStatus {
+  JOINED
+  LEFT
+}
+
+model Organization {
+  id          String   @id @default(uuid())
+  name        String
+  inviteToken String   @unique @map("invite_token")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  offices Office[]
+  users   User[]
+
+  @@map("organizations")
+}
+
+model Office {
+  id             String @id @default(uuid())
+  organizationId String @map("organization_id")
+  name           String
+  address        String
+  city           String
+  lat            Float
+  lng            Float
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  homeUsers    User[]
+  trips        Trip[]
+
+  @@map("offices")
+}
+
+model User {
+  id             String   @id @default(uuid())
+  organizationId String   @map("organization_id")
+  homeOfficeId   String?  @map("home_office_id")
+  email          String   @unique
+  passwordHash   String   @map("password_hash")
+  name           String
+  role           Role     @default(EMPLOYEE)
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  organization Organization @relation(fields: [organizationId], references: [id])
+  homeOffice   Office?      @relation(fields: [homeOfficeId], references: [id])
+  tripsDriven  Trip[]       @relation("DriverTrips")
+  memberships  TripMember[]
+
+  @@map("users")
+}
+
+model Trip {
+  id            String     @id @default(uuid())
+  driverId      String     @map("driver_id")
+  officeId      String     @map("office_id")
+  startLat      Float      @map("start_lat")
+  startLng      Float      @map("start_lng")
+  startAddress  String     @map("start_address")
+  departureTime DateTime   @map("departure_time")
+  seatsTotal    Int        @map("seats_total")
+  status        TripStatus @default(ACTIVE)
+  createdAt     DateTime   @default(now()) @map("created_at")
+
+  driver  User         @relation("DriverTrips", fields: [driverId], references: [id])
+  office  Office       @relation(fields: [officeId], references: [id])
+  members TripMember[]
+
+  @@map("trips")
+}
+
+model TripMember {
+  id       String       @id @default(uuid())
+  tripId   String       @map("trip_id")
+  userId   String       @map("user_id")
+  status   MemberStatus @default(JOINED)
+  joinedAt DateTime     @default(now()) @map("joined_at")
+
+  trip Trip @relation(fields: [tripId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([tripId, userId])
+  @@map("trip_members")
+}
