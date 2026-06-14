@@ -36,6 +36,7 @@ export class AuthService {
                 email: dto.email,
                 name: dto.name,
                 passwordHash,
+                city: dto.city ?? null,
                 organizationId: organization.id,
             },
         });

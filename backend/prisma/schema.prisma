@@ -55,12 +55,16 @@ model Office {
 model User {
   id             String   @id @default(uuid())
   organizationId String   @map("organization_id")
+  city           String?  @map("city")
   homeOfficeId   String?  @map("home_office_id")
+  homeAddress    String?  @map("home_address")
   email          String   @unique
   passwordHash   String   @map("password_hash")
   name           String
   role           Role     @default(EMPLOYEE)
   createdAt      DateTime @default(now()) @map("created_at")
+  homeLat        Float?   @map("home_lat")
+  homeLng        Float?   @map("home_lng")
 
   organization Organization @relation(fields: [organizationId], references: [id])
   homeOffice   Office?      @relation(fields: [homeOfficeId], references: [id])

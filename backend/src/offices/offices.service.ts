@@ -1,4 +1,4 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import {PrismaService} from "../prisma/prisma.service";
 import {CreateOfficeDto} from "./dto/create-office.dto";
 import {UpdateOfficeDto} from "./dto/update-office.dto";
@@ -7,7 +7,27 @@ import {UpdateOfficeDto} from "./dto/update-office.dto";
 export class OfficesService {
     constructor(private prisma: PrismaService) {}
 
-    create(organizationId: string, dto: CreateOfficeDto) {
+    async create(organizationId: string, dto: CreateOfficeDto) {
+        const EPSILON = 0.0001;
+
+        const existingOffice = await this.prisma.office.findFirst({
+            where: {
+                organizationId,
+                lat: {
+                    gte: Number(dto.lat) - EPSILON,
+                    lte: Number(dto.lat) + EPSILON,
+                },
+                lng: {
+                    gte: Number(dto.lng) - EPSILON,
+                    lte: Number(dto.lng) + EPSILON,
+                }
+            }
+        })
+
+        if (existingOffice) {
+            throw new BadRequestException('Офис в этой локации уже существует')
+        }
+
         return this.prisma.office.create({
             data: {
                 ...dto,
