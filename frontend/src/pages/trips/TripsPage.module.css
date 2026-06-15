@@ -1,0 +1,26 @@
+.page {
+    max-width: 900px;
+    margin: 10px auto 0px auto;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.title {
+    margin: 0;
+    font-size: 26px;
+}
+
+.grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.empty {
+    color: var(--color-text-muted);
+}

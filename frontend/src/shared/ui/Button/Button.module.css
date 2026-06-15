@@ -2,19 +2,30 @@
     padding: 11px 18px;
     border: none;
     border-radius: var(--radius);
-    background: var(--color-primary);
     color: var(--color-primary-contrast);
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.2s;
 
-    &:hover:not(:disabled) {
-        background: var(--color-primary-hover);
-    }
-
     &:disabled {
         opacity: 0.6;
         cursor: not-allowed;
+    }
+}
+
+.primary {
+    background: var(--color-primary);
+
+    &:hover:not(:disabled) {
+        background: var(--color-primary-hover);
+    }
+}
+
+.danger {
+    background: var(--color-danger);
+
+    &:hover:not(:disabled) {
+        background: #a8412f;
     }
 }

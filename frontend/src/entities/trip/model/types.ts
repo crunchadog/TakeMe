@@ -24,6 +24,8 @@ export interface Trip {
         name: string;
         city: string;
         address: string;
+        lat: number;
+        lng: number;
     },
     members: TripMember[],
 }

@@ -1,26 +1,55 @@
 :root {
-  --color-bg: #f4f6f7;
-  --color-surface: #ffffff;
-  --color-border: #dde3e5;
+    --color-bg: #eef2f8;
+    --color-surface: #ffffff;
+    --color-border: #dce3ee;
 
-  --color-text: #1c2b30;
-  --color-text-muted: #5f7178;
+    --color-sidebar: #1b2a4a;
+    --color-sidebar-text: #aab8d4;
+    --color-sidebar-active: #4f7fd1;
 
-  --color-primary: #0f7c8a;
-  --color-primary-hover: #0c6571;
-  --color-primary-contrast: #ffffff;
+    --color-text: #1a2233;
+    --color-text-muted: #65718a;
 
-  --color-accent: #5b9aa0;
+    --color-primary: #4f7fd1;
+    --color-primary-hover: #3f6aba;
+    --color-primary-contrast: #ffffff;
 
-  --color-success: #2f9e6f;
-  --color-danger: #c2533f;
+    --color-accent: #e0a64f;
+    --color-accent-text: #3a2a05;
+    --color-info: #4f7fd1;
 
-  --radius: 10px;
-  --shadow: 0 1px 3px rgba(28, 43, 48, 0.08);
+    --color-success: #3a8a63;
+    --color-danger: #c2533f;
+
+    --radius: 10px;
+    --shadow: 0 1px 3px rgba(27, 42, 74, 0.08);
+
+    --bg-gradient: linear-gradient(135deg, #e9eef7 0%, #eef2f8 55%, #ffffff 100%);
 }
+
 body {
-  margin: 0;
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: "Inter Semi Bold", sans-serif;
+    margin: 0;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--color-text);
+    font-family: "Inter Semi Bold", sans-serif;
+}
+
+.leaflet-control-zoom-in {
+    color: var(--color-primary) !important;
+    border-color: var(--color-border) !important;
+
+    &:hover {
+        background: var(--color-bg) !important;
+        color: var(--color-primary-hover) !important;
+    }
+}
+
+.leaflet-bar {
+    border: none !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3) !important;
+}
+
+.leaflet-control-attribution a {
+    display: none; !important
 }
