@@ -1,0 +1,96 @@
+.page {
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 380px;
+    padding: 32px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.title {
+    margin: 0 0 8px;
+    font-size: 22px;
+}
+
+.text {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.divider {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    border-top: 1px solid var(--color-border);
+    padding-top: 14px;
+    margin-top: 4px;
+}
+
+.tokenField {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.tokenField > *:first-child {
+    flex: 1;
+}
+
+.genBtn {
+    border: 1px solid var(--color-primary);
+    background: rgba(79, 127, 209, 0.1);
+    color: var(--color-primary);
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.tokenBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(79, 127, 209, 0.08);
+    border: 1px dashed var(--color-primary);
+    border-radius: var(--radius);
+}
+
+.token {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: 1px;
+}
+
+.copyBtn {
+    border: none;
+    background: var(--color-primary);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.hint {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    text-align: center;
+
+    a {
+        color: var(--color-primary);
+    }
+}

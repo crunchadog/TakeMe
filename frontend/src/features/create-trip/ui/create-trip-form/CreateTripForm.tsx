@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {type SubmitEvent, type ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {toast} from "sonner";
 
@@ -30,7 +30,7 @@ export function CreateTripForm() {
 
     const [startPoint, setStartPoint] = useState<{ lat: number, lng: number } | null>(null)
 
-    const update = (field: string) => (e: React.ChangeEvent<any>) => {
+    const update = (field: string) => (e: ChangeEvent<any>) => {
         setForm({
             ...form,
             [field]: e.target.value,
@@ -60,7 +60,7 @@ export function CreateTripForm() {
         }
     }
 
-    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!startPoint) {
             toast.error('Укажите точку старта на карте');

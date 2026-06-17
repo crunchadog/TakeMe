@@ -4,6 +4,44 @@ export interface GeoSuggestion {
     lng: number;
 }
 
+export interface CitySuggestion {
+    city: string;
+    region?: string;
+    lat: number;
+    lng: number;
+}
+
+export async function searchCity(query: string): Promise<CitySuggestion[]> {
+    if (query.trim().length < 2) return []
+
+    const url =
+        'https://nominatim.openstreetmap.org/search' +
+        `?q=${encodeURIComponent(query)}` +
+        '&format=json&addressdetails=1&limit=5&accept-language=ru' +
+        '&featuretype=city';
+
+    const res = await fetch(url, {
+        headers: {
+            'Accept-Language': 'ru'
+        }
+    })
+
+    if (!res.ok) throw new Error('Ошибка поика городов')
+
+    const data = await res.json()
+    return data.map((item: any) => {
+        const a = item.address ?? {}
+        const city = a.city || a.town || a.village || a.state || item.name
+
+        return city ? {
+            city: city,
+            region: a.state,
+            lat: parseFloat(item.lat),
+            lng: parseFloat(item.lng)
+        } : null
+    }).filter((sug: CitySuggestion | null): sug is CitySuggestion => sug !== null);
+}
+
 export async function searchAddress(query: string): Promise<GeoSuggestion[]> {
     if (query.trim().length < 3) {
         return []
@@ -52,6 +90,7 @@ export async function reverseGeocode(lat: number, lng: number): Promise<string> 
     if (!res.ok) throw new Error('Ошибка геокодинга')
 
     const data = await res.json()
-    console.log(data)
-    return data.display_name ?? ''
+    const address = data.display_name.split(',');
+    const cleanAddress = address.slice(0, -3).map((s: string) => s.trim()).join(', ');
+    return cleanAddress ?? ''
 }

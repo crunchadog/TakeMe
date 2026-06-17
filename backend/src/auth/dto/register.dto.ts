@@ -16,9 +16,8 @@ export class RegisterDto {
     password: string;
 
     @ApiPropertyOptional({ example: 'Санкт-Петербург', description: 'Город пользователя' })
-    @IsOptional()
     @IsString()
-    city?: string;
+    city: string;
 
     @ApiProperty({example: "COMP-TOKEN-1024", description: "Токен организации"})
     @IsString()

@@ -1,4 +1,5 @@
 import {createBrowserRouter} from "react-router-dom";
+
 import {Layout} from "@/app/Layout/Layout.tsx";
 import {ErrorPage} from "@/pages/error/ErrorPage.tsx";
 import {ProtectedRoute} from "@/app/routes/ProtectedRoute.tsx";
@@ -7,6 +8,9 @@ import {RegisterPage} from "@/pages/register/RegisterPage.tsx";
 import {TripsPage} from "@/pages/trips/TripsPage.tsx";
 import {CreateTripPage} from "@/pages/create-trip/CreateTripPage.tsx";
 import {TripDetailsPage} from "@/pages/trip-details/TripDetailsPage.tsx";
+import {RegisterChoicePage} from "@/pages/register-choice/RegisterChoicePage.tsx";
+import {RegisterOrgPage} from "@/pages/register-org/RegisterOrgPage.tsx";
+import {OfficesPage} from "@/pages/offices/OfficesPage.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -17,6 +21,16 @@ export const router = createBrowserRouter([
     {
         path: '/register',
         element: <RegisterPage/>,
+        errorElement: <ErrorPage/>
+    },
+    {
+        path: '/register-org',
+        element: <RegisterOrgPage/>,
+        errorElement: <ErrorPage/>
+    },
+    {
+        path: '/register-choice',
+        element: <RegisterChoicePage/>,
         errorElement: <ErrorPage/>
     },
     {
@@ -37,6 +51,10 @@ export const router = createBrowserRouter([
                     {
                         path: '/trips/:id',
                         element: <TripDetailsPage/>
+                    },
+                    {
+                        path: '/offices',
+                        element: <OfficesPage/>
                     }
                 ]
             }

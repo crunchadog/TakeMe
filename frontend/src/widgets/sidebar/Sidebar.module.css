@@ -1,6 +1,7 @@
 .sidebar {
     width: 220px;
     flex-shrink: 0;
+    height: 95.7vh ;
     position: sticky;
     top: 0;
     background: var(--color-sidebar);

@@ -1,5 +1,5 @@
 .page {
-    max-width: 600px;
+    max-width: 1400px;
     margin: 20px auto 0 auto;
 }
 
@@ -65,4 +65,31 @@
     margin-top: 12px;
     font-weight: 600;
     color: var(--color-primary);
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+}
+
+.right {
+    position: sticky;
+    top: 24px;
+}
+
+@media (max-width: 900px) {
+    .columns {
+        grid-template-columns: 1fr;
+    }
+
+    .right {
+        position: static;
+    }
 }

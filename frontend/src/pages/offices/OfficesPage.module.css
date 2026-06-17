@@ -1,0 +1,104 @@
+.page {
+    width: 100%;
+}
+
+.title {
+    font-size: 26px;
+    margin: 0 0 16px;
+}
+
+.subtitle {
+    font-size: 18px;
+    margin: 0 0 16px;
+}
+
+.muted {
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+.tokenBox {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 16px;
+    margin-bottom: 24px;
+    background: rgba(79, 127, 209, 0.08);
+    border: 1px dashed var(--color-primary);
+    border-radius: var(--radius);
+}
+
+.token {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--color-primary);
+    letter-spacing: 1px;
+}
+
+.copyBtn {
+    border: none;
+    background: var(--color-primary);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.officeCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 18px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.officeName {
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.delBtn {
+    border: none;
+    background: rgba(194, 83, 63, 0.1);
+    color: var(--color-danger);
+    padding: 7px 14px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: -135px;
+    padding: 24px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.hint {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin: 0;
+}

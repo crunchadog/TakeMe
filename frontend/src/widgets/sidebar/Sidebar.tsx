@@ -1,13 +1,14 @@
 import {NavLink, useNavigate} from "react-router-dom";
 import {toast} from "sonner";
+import {Building2, Car, MapPlus} from "lucide-react";
 
 import {useCurrentUser} from "@/features/auth/model/useCurrentUser.ts";
-import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
-
 import {logout} from "@/features/auth/model/authSlice.ts";
 
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
+import {baseApi} from "@/shared/api/baseApi.ts";
+
 import styles from './Sidebar.module.css'
-import {Car, MapPlus} from "lucide-react";
 
 export function Sidebar() {
     const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ export function Sidebar() {
 
     const handleLogout = () => {
         dispatch(logout())
+        dispatch(baseApi.util.resetApiState())
         toast.success('Вы вышли из аккаунта')
         navigate('/login')
     }
@@ -35,6 +37,12 @@ export function Sidebar() {
                 <NavLink to="/trips/new" className={linkClass}>
                     <MapPlus width={18}/> <span>Создать</span>
                 </NavLink>
+
+                {me?.role === 'ADMIN' && (
+                    <NavLink to="/offices" className={linkClass}>
+                        <Building2 width={17}/> <span>Офисы</span>
+                    </NavLink>
+                )}
             </nav>
             <div className={styles.bottom}>
                 <NavLink to="/profile" className={styles.profile}>

@@ -32,6 +32,13 @@ export const tripApi = baseApi.injectEndpoints({
                 method: 'PATCH',
             }),
             invalidatesTags: ['Trip'],
+        }),
+        cancelTrip: builder.mutation<Trip, string>({
+            query: (id) => ({
+                url: `/trips/${id}/cancel`,
+                method: "PATCH"
+            }),
+            invalidatesTags: ['Trip']
         })
     })
 })
@@ -42,4 +49,5 @@ export const {
     useCreateTripMutation,
     useJoinTripMutation,
     useLeaveTripMutation,
+    useCancelTripMutation,
 } = tripApi

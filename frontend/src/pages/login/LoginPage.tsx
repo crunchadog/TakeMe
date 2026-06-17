@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {type SubmitEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "sonner";
 
@@ -10,6 +10,7 @@ import {Button} from "@/shared/ui/Button/Button.tsx";
 import {setToken} from "@/features/auth/model/authSlice.ts";
 
 import styles from './LoginPage.module.css'
+import {baseApi} from "@/shared/api/baseApi.ts";
 
 export function LoginPage() {
     const [email, setEmail] = useState('')
@@ -20,12 +21,13 @@ export function LoginPage() {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
-    const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
             const res = await login({email, password}).unwrap()
             dispatch(setToken(res.access_token))
+            dispatch(baseApi.util.resetApiState())
             toast.success('С возвращением!')
             navigate('/trips')
         } catch (e) {
@@ -60,7 +62,7 @@ export function LoginPage() {
                 </Button>
 
                 <p className={styles.hint}>
-                    Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
+                    Нет аккаунта? <Link to="/register-choice">Зарегистрироваться</Link>
                 </p>
             </form>
         </div>

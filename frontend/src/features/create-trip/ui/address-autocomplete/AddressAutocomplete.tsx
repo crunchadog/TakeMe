@@ -10,9 +10,10 @@ interface Props {
     value: string;
     onChange: (value: string) => void;
     onSelect: (suggestion: GeoSuggestion) => void;
+    label?: string;
 }
 
-export function AddressAutocomplete({value, onChange, onSelect}: Props) {
+export function AddressAutocomplete({value, onChange, onSelect, label = 'Адрес старта'}: Props) {
     const [suggestions, setSuggestions] = useState<GeoSuggestion[]>([])
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -66,7 +67,7 @@ export function AddressAutocomplete({value, onChange, onSelect}: Props) {
     return (
         <div className={styles.wrapper} ref={wrapperRef}>
             <Input
-                label='Адрес старта'
+                label={label}
                 value={value}
                 onChange={e => {
                     onChange(e.target.value)
