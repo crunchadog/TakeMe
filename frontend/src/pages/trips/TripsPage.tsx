@@ -65,9 +65,9 @@ export function TripsPage() {
 
             <div className={styles.controls}>
                 <Select
-                label={'Сортировка'}
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as SortBy)}
+                    label={'Сортировка'}
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value as SortBy)}
                 >
                     <option value="data">По дате выезда</option>
                     <option value="seats">По свободным местам</option>
@@ -83,7 +83,7 @@ export function TripsPage() {
             <div className={styles.columns}>
                 <div className={styles.list}>
                     {visibleTrips.length > 0 ? (
-                        visibleTrips.map((trip) => <TripCard key={trip.id} trip={trip} />)
+                        visibleTrips.map((trip) => <TripCard key={trip.id} trip={trip}/>)
                     ) : (
                         <p className={styles.empty}>
                             {selectedOffice ? 'Нет поездок в этот офис' : 'Пока нет активных поездок'}

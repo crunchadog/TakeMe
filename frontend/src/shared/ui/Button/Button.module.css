@@ -29,3 +29,8 @@
         background: #a8412f;
     }
 }
+
+.small {
+    background: none;
+    color: black;
+}

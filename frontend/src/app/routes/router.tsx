@@ -11,6 +11,7 @@ import {TripDetailsPage} from "@/pages/trip-details/TripDetailsPage.tsx";
 import {RegisterChoicePage} from "@/pages/register-choice/RegisterChoicePage.tsx";
 import {RegisterOrgPage} from "@/pages/register-org/RegisterOrgPage.tsx";
 import {OfficesPage} from "@/pages/offices/OfficesPage.tsx";
+import {ProfilePage} from "@/pages/profile/ProflePage.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
                     {
                         path: '/offices',
                         element: <OfficesPage/>
+                    },
+                    {
+                        path: '/profile',
+                        element: <ProfilePage/>
                     }
                 ]
             }
