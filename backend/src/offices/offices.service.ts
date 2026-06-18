@@ -37,10 +37,14 @@ export class OfficesService {
     }
 
     findAll(organizationId: string) {
+        if (!organizationId) {
+            throw new BadRequestException('Идентификатор организации не указан');
+        }
+
         return this.prisma.office.findMany({
-            where: {organizationId},
-            orderBy: {name: 'asc'},
-        })
+            where: { organizationId },
+            orderBy: { name: 'asc' },
+        });
     }
 
     async findOne(organizationId: string, id: string) {
@@ -65,10 +69,19 @@ export class OfficesService {
 
     async remove(organizationId: string, id: string) {
         await this.findOne(organizationId, id);
-        await this.prisma.office.delete({
-            where: {id}
-        })
 
-        return { success: true };
+        return this.prisma.$transaction(async (tx) => {
+            const trips = await tx.trip.findMany({
+                where: { officeId: id },
+                select: { id: true },
+            });
+            const tripIds = trips.map((t) => t.id);
+            if (tripIds.length > 0) {
+                await tx.tripMember.deleteMany({ where: { tripId: { in: tripIds } } });
+                await tx.trip.deleteMany({ where: { id: { in: tripIds } } });
+            }
+            await tx.office.delete({ where: { id } });
+            return { success: true };
+        });
     }
 }

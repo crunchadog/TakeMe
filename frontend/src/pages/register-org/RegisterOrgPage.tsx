@@ -47,6 +47,7 @@ export function RegisterOrgPage() {
         e.preventDefault()
         try {
             const res = await createOrg(form).unwrap()
+            console.log(res)
             setCreatedToken(res.inviteToken)
             dispatch(setToken(res.access_token))
             dispatch(baseApi.util.resetApiState())

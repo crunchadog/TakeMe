@@ -2,18 +2,21 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {toast} from "sonner";
 import {Building2, Car, MapPlus} from "lucide-react";
 
-import {useCurrentUser} from "@/features/auth/model/useCurrentUser.ts";
 import {logout} from "@/features/auth/model/authSlice.ts";
+
+import {useGetMeQuery} from "@/entities/users/api/usersApi.ts";
 
 import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
 import {baseApi} from "@/shared/api/baseApi.ts";
+import {Avatar} from "@/shared/ui/Avatar/Avatar.tsx";
 
 import styles from './Sidebar.module.css'
 
 export function Sidebar() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const me = useCurrentUser()
+
+    const { data: me } = useGetMeQuery();
 
     const linkClass = ({isActive}: { isActive: boolean }) => {
         return isActive ? `${styles.link} ${styles.linkActive}` : styles.link
@@ -46,9 +49,7 @@ export function Sidebar() {
             </nav>
             <div className={styles.bottom}>
                 <NavLink to="/profile" className={styles.profile}>
-          <span className={styles.avatar}>
-            {me?.email?.charAt(0).toUpperCase() ?? '?'}
-          </span>
+                    <Avatar name={me?.name ?? me?.email ?? '?'} color={me?.avatarColor} size={34} />
                     <span className={styles.profileText}>
             <span className={styles.profileName}>Профиль</span>
             <span className={styles.profileSub}>Настройки</span>

@@ -32,6 +32,9 @@ export const usersApi = baseApi.injectEndpoints({
                 }),
                 invalidatesTags: ['Me'],
             }),
+            deleteMe: builder.mutation<{ success: boolean }, void>({
+                query: () => ({url: '/users/me', method: 'DELETE'}),
+            }),
         }
     }
 })
@@ -39,4 +42,5 @@ export const usersApi = baseApi.injectEndpoints({
 export const {
     useGetMeQuery,
     useUpdateMeMutation,
+    useDeleteMeMutation,
 } = usersApi

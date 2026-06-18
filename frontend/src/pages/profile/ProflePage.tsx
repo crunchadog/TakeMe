@@ -1,21 +1,32 @@
 import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {toast} from "sonner";
+import {Edit} from "lucide-react";
 
 import {AddressAutocomplete} from "@/features/create-trip/ui/address-autocomplete/AddressAutocomplete.tsx";
+import {logout} from "@/features/auth/model/authSlice.ts";
 
-import {useGetMeQuery, useUpdateMeMutation} from "@/entities/users/api/usersApi.ts";
+import {useDeleteMeMutation, useGetMeQuery, useUpdateMeMutation} from "@/entities/users/api/usersApi.ts";
 
 import {Avatar} from "@/shared/ui/Avatar/Avatar.tsx";
 import {Input} from "@/shared/ui/Input/Input.tsx";
 import {CityAutocomplete} from "@/shared/ui/CityAutocomplete/CityAutocomplete.tsx";
 import {Button} from "@/shared/ui/Button/Button.tsx";
+import {ConfirmModal} from "@/shared/ui/Modal/ConfirmModal.tsx";
+import {baseApi} from "@/shared/api/baseApi.ts";
+import {useAppDispatch} from "@/shared/hooks/useAppDispatch.ts";
 
 import styles from './ProflePage.module.css'
-import {Edit} from "lucide-react";
+import {Spinner} from "@/shared/ui/Spinner/Spinner.tsx";
 
 const COLORS = ['#4f7fd1', '#e0a64f', '#3a8a63', '#c2533f', '#7c6fc7', '#0ea5e9']
 
 export function ProfilePage() {
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const [deleteMe, { isLoading: deleting }] = useDeleteMeMutation();
+    const [confirmOpen, setConfirmOpen] = useState(false);
+
     const {data: me} = useGetMeQuery()
     const [updateMe, {isLoading: updating}] = useUpdateMeMutation()
 
@@ -42,6 +53,18 @@ export function ProfilePage() {
             toast.error("Ошибка при сохранении");
         }
     }
+
+    const handleDelete = async () => {
+        try {
+            await deleteMe().unwrap();
+            toast.success('Профиль удалён');
+            dispatch(logout());
+            dispatch(baseApi.util.resetApiState());
+            navigate('/login');
+        } catch (err: any) {
+            toast.error(err?.data?.message ?? 'Не удалось удалить профиль');
+        }
+    };
     useEffect(() => {
         if (me) {
             setName(me.name)
@@ -56,12 +79,11 @@ export function ProfilePage() {
         }
     }, [me]);
 
-    if (!me) return <p>Загрузка..</p>
+    if (!me) return <Spinner/>
 
     return (
         <div className={styles.page}>
             <h1 className={styles.title}>Профиль</h1>
-
             <div className={styles.head}>
                 <Avatar name={name} color={color} size={72}/>
                 <div>
@@ -130,6 +152,30 @@ export function ProfilePage() {
                     {updating ? 'Сохраняем...' : 'Сохранить'}
                 </button>
             </div>
+
+            <div className={styles.dangerZone}>
+                <div>
+                    <div className={styles.dangerTitle}>Удалить профиль</div>
+                    <div className={styles.muted}>
+                        Аккаунт и ваши данные будут удалены. Это действие необратимо.
+                    </div>
+                </div>
+                <Button variant="danger" onClick={() => setConfirmOpen(true)}>
+                    Удалить
+                </Button>
+            </div>
+
+            <ConfirmModal
+                open={confirmOpen}
+                title="Удаление профиля"
+                confirmText="Да, удалить"
+                loading={deleting}
+                onConfirm={handleDelete}
+                onClose={() => setConfirmOpen(false)}
+            >
+                Вы точно хотите удалить профиль? Все ваши данные будут стёрты,
+                активные поездки отменены
+            </ConfirmModal>
         </div>
     )
 }

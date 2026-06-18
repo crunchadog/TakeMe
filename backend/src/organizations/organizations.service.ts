@@ -6,10 +6,13 @@ import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import {generateOrgToken} from "./utils/token.utils";
+import {JwtService} from "@nestjs/jwt";
 
 @Injectable()
 export class OrganizationsService {
-    constructor(private prisma: PrismaService) {}
+    constructor(
+        private prisma: PrismaService,
+        private jwt: JwtService) {}
 
     findAll(organizationId: string) {
         return this.prisma.organization.findMany({
@@ -79,11 +82,16 @@ export class OrganizationsService {
             return { organization, user };
         });
 
-        return {
-            user: result.user,
-            organization: result.organization,
-            inviteToken: token,
-        };
+        const payload = {
+            sub: result.user.id,
+            email: result.user.email,
+            role: result.user.role,
+            organizationId: result.user.organizationId,
+        }
+
+        const access_token = await this.jwt.signAsync(payload)
+
+        return {access_token, inviteToken: token}
     }
 
     async remove(orgId: string) {

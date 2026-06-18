@@ -8,6 +8,7 @@ import {useCreateOfficeMutation, useDeleteOfficeMutation, useGetOfficesQuery} fr
 
 import {AddressAutocomplete} from "@/features/create-trip/ui/address-autocomplete/AddressAutocomplete.tsx";
 
+import {Spinner} from "@/shared/ui/Spinner/Spinner.tsx";
 import {Input} from "@/shared/ui/Input/Input.tsx";
 import {CityAutocomplete} from "@/shared/ui/CityAutocomplete/CityAutocomplete.tsx";
 import {MapView} from "@/shared/ui/Map/MapView.tsx";
@@ -34,8 +35,6 @@ export function OfficesPage() {
     const [mapCenter, setMapCenter] = useState<[number, number]>([55.75, 37.62]);
 
     const [officeToDelete, setOfficeToDelete] = useState<{ id: string; name: string } | null>(null);
-
-    const isAdmin = me?.role === 'ADMIN';
 
     const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -105,6 +104,10 @@ export function OfficesPage() {
             toast.success('Токен скопирован')
         }
     }
+
+    if (isLoading) return <Spinner/>;
+    if (!me) return <p>Не удалось загрузить профиль</p>;
+    const isAdmin = me?.role === 'ADMIN';
 
     if (!isAdmin) {
         return (
